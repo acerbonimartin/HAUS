@@ -1,0 +1,64 @@
+import Enfermedades.*
+import enfermos.*
+import fixture1.*
+
+describe "enfermos"{
+
+test "Logan pasa un dia, pierde 10.000 celulas"{
+	logan.agregarEnfermedades(fixture1.enfermedadesLogan())
+	logan.pasaUnDia()
+	assert.equals(2990000,logan.celulas())
+}
+test "Logan pasa un dia, cambia su temperatura"{
+	logan.agregarEnfermedades(fixture1.enfermedadesLogan())
+	logan.pasaUnDia()
+	assert.equals(36.6,logan.temperaturaActual())
+}
+test "frank contrae enfermedad,cambia temperatura"{
+	frank.agregarEnfermedad(fixture1.malariaFrank())
+	frank.pasaUnDia()
+	assert.equals(36.8,frank.temperaturaActual())
+}
+test "se reproduce la malaria de Logan"{
+	var malaria= fixture1.malariaLogan()
+	logan.agregarEnfermedad(malaria)
+	logan.agregarEnfermedad(fixture1.otitisLogan())
+	logan.agregarEnfermedad(fixture1.lupusLogan())
+	malaria.duplicarCelulas()
+	assert.equals(1000,malaria.celulasInfectadas())
+}
+test"logan pasa un dia, celulas afectadas agresivamente"{
+	logan.agregarEnfermedades(fixture1.enfermedadesLogan())
+	logan.pasaUnDia()
+	assert.equals(0,logan.celulasInfectadasAgresivamente())
+}
+test"logan pasa un dia, enfermedad que mas afecta"{
+	var lupus= fixture1.lupusLogan()
+	logan.agregarEnfermedad(lupus)
+	logan.agregarEnfermedad(fixture1.otitisLogan())
+	logan.agregarEnfermedad(fixture1.malariaLogan())
+	assert.equals(lupus,logan.enfermedadQueMasAfecta())
+}
+test"logan se la banca 31 dias, pierde celulas"{
+	var malaria= fixture1.malariaLogan()
+	logan.agregarEnfermedad(malaria)
+	var lupus= fixture1.lupusLogan()
+	logan.agregarEnfermedad(lupus)
+	logan.agregarEnfermedad(fixture1.otitisLogan())
+	31.times{logan.pasaUnDia()}
+	assert.equals(2690000,logan.celulas())
+}
+test "logan se la banca 31 dias, enfermedades agresivas"{
+	var malaria= fixture1.malariaLogan()
+	logan.agregarEnfermedad(malaria)
+	var lupus= fixture1.lupusLogan()
+	logan.agregarEnfermedad(lupus)
+	logan.agregarEnfermedad(fixture1.otitisLogan())
+	31.times{logan.pasaUnDia()}
+	
+	}
+	
+
+
+
+}
